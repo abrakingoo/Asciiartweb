@@ -2,14 +2,19 @@ package api
 
 import (
 	"asciiartweb/server/art"
-	"asciiartweb/server/utils"
+	"html/template"
 	"net/http"
+	"os"
 )
+
+type artResult struct {
+	Result string
+}
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid Request Method", http.StatusMethodNotAllowed)
-		return
+		os.Exit(0)
 	}
 
 	userInput := r.FormValue("user_input")
@@ -17,5 +22,11 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	asciiArt := art.Art(userInput, banner)
 
-	utils.RenderTemplate(w, asciiArt)
+	data := artResult {
+		Result : asciiArt,
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/ascii-art.html"))
+
+	tmpl.Execute(w, data)
 }

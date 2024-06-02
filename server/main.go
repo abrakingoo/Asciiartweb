@@ -20,6 +20,7 @@ func main() {
 </head>
 <body>
     <h1>Ascii Art Web</h1>
+    <hr/>
     <form action="/ascii-art" method="post">
         <label for="user_input">Text Input</label>
         <input type="text" name="user_input" id="user_input"><br>
